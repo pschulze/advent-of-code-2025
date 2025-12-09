@@ -25,11 +25,11 @@ func TestDecode(t *testing.T) {
 			got, err := decode(tc.instruction)
 
 			if (err != nil) && !tc.wantErr {
-				t.Fatalf("decode(%q) unexpected error: %v", tc.instruction, err)
+				t.Errorf("decode(%q) unexpected error: %v", tc.instruction, err)
 			}
 
 			if got != tc.want {
-				t.Fatalf("decode(%q) = %d; want %d", tc.instruction, got, tc.want)
+				t.Errorf("decode(%q) = %d; want %d", tc.instruction, got, tc.want)
 			}
 		})
 	}
@@ -58,7 +58,7 @@ func TestRotate(t *testing.T) {
 		t.Run(name, func(t *testing.T) {
 			got := rotate(tc.pos, tc.steps)
 			if got != tc.want {
-				t.Fatalf("rotate(%d, %d) = %d; want %d", tc.pos, tc.steps, got, tc.want)
+				t.Errorf("rotate(%d, %d) = %d; want %d", tc.pos, tc.steps, got, tc.want)
 			}
 		})
 	}
@@ -93,7 +93,7 @@ func TestZeroPasses(t *testing.T) {
 		t.Run(name, func(t *testing.T) {
 			got := zeroPasses(tc.pos, tc.steps)
 			if got != tc.want {
-				t.Fatalf("zeroPasses(%d, %d) = %d; want %d", tc.pos, tc.steps, got, tc.want)
+				t.Errorf("zeroPasses(%d, %d) = %d; want %d", tc.pos, tc.steps, got, tc.want)
 			}
 		})
 	}
