@@ -71,12 +71,34 @@ func maxJoltage(joltages []int) int {
 			}
 		}
 
-		if i != 0 {
-			if joltage > secondDigit && !firstChanged {
-				secondDigit = joltage
-			}
+		if joltage > secondDigit && !firstChanged {
+			secondDigit = joltage
 		}
 	}
 
 	return firstDigit*10 + secondDigit
+}
+
+func maxJoltageArbitrary(joltages []int, n int) int {
+	digits := make([]int, n)
+
+	for _, joltage := range joltages {
+		for i := range n {
+			// TODO: Add check to make sure we're not replacing digits too "late" in the joltages
+			// E.g. replacing the first digit when processing the last joltage
+			if joltage > digits[i] {
+				digits[i] = joltage
+				for j := i + 1; j < n; j++ {
+					digits[j] = 0
+				}
+			}
+		}
+	}
+
+	sum := 0
+	for _, digit := range digits {
+		sum = sum*10 + digit
+	}
+
+	return sum
 }
