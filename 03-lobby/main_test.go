@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"slices"
 	"testing"
 )
@@ -21,15 +22,16 @@ func TestParseJoltage(t *testing.T) {
 	}
 
 	for _, tc := range tests {
-		got, err := parseJoltage(tc.input)
-		if (err != nil) != tc.hasError {
-			t.Errorf("parseJoltage(%q) error = %v; want error: %v", tc.input, err != nil, tc.hasError)
-			continue
-		}
+		t.Run(tc.input, func(t *testing.T) {
+			got, err := parseJoltage(tc.input)
+			if (err != nil) != tc.hasError {
+				t.Errorf("parseJoltage(%q) error = %v; want error: %v", tc.input, err != nil, tc.hasError)
+			}
 
-		if !slices.Equal(got, tc.want) {
-			t.Errorf("parseJoltage(%q) = %v; want %v", tc.input, got, tc.want)
-		}
+			if !slices.Equal(got, tc.want) {
+				t.Errorf("parseJoltage(%q) = %v; want %v", tc.input, got, tc.want)
+			}
+		})
 	}
 }
 
@@ -47,10 +49,12 @@ func TestMaxJoltage(t *testing.T) {
 	}
 
 	for _, tc := range tests {
-		got := maxJoltage(tc.joltages)
-		if got != tc.want {
-			t.Errorf("maxJoltage(%v) = %d; want %d", tc.joltages, got, tc.want)
-		}
+		t.Run(fmt.Sprintf("%v", tc.joltages), func(t *testing.T) {
+			got := maxJoltage(tc.joltages)
+			if got != tc.want {
+				t.Errorf("maxJoltage(%v) = %d; want %d", tc.joltages, got, tc.want)
+			}
+		})
 	}
 }
 
@@ -69,9 +73,11 @@ func TestMaxJoltageArbitrary(t *testing.T) {
 	}
 
 	for _, tc := range tests {
-		got := maxJoltageArbitrary(tc.joltages, tc.n)
-		if got != tc.want {
-			t.Errorf("maxJoltageArbitrary(%v, %d) = %d; want %d", tc.joltages, tc.n, got, tc.want)
-		}
+		t.Run(fmt.Sprintf("%v", tc.joltages), func(t *testing.T) {
+			got := maxJoltageArbitrary(tc.joltages, tc.n)
+			if got != tc.want {
+				t.Errorf("maxJoltageArbitrary(%v, %d) = %d; want %d", tc.joltages, tc.n, got, tc.want)
+			}
+		})
 	}
 }

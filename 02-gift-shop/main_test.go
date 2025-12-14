@@ -2,6 +2,7 @@ package main
 
 import (
 	"slices"
+	"strconv"
 	"testing"
 )
 
@@ -78,10 +79,12 @@ func TestValidId2(t *testing.T) {
 	}
 
 	for _, tc := range tests {
-		got := validId2(tc.id)
-		if got != tc.want {
-			t.Errorf("validId2(%d) = %v; want %v", tc.id, got, tc.want)
-		}
+		t.Run(strconv.Itoa(tc.id), func(t *testing.T) {
+			got := validId2(tc.id)
+			if got != tc.want {
+				t.Errorf("validId2(%d) = %v; want %v", tc.id, got, tc.want)
+			}
+		})
 	}
 }
 
