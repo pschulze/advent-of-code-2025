@@ -9,12 +9,13 @@ import (
 )
 
 func main() {
-	if len(os.Args) < 2 {
-		fmt.Println("Please provide an input file.")
+	if len(os.Args) < 3 {
+		fmt.Println("Please provide a part number (1 or 2) and an input filename as arguments.")
 		return
 	}
 
-	filename := os.Args[1]
+	part := os.Args[1]
+	filename := os.Args[2]
 
 	f, err := os.Open(filename)
 	if err != nil {
@@ -32,7 +33,15 @@ func main() {
 			panic(err)
 		}
 
-		totalJoltage += maxJoltage(joltages)
+		switch part {
+		case "1":
+			totalJoltage += maxJoltage(joltages)
+		case "2":
+			totalJoltage += maxJoltageArbitrary(joltages, 12)
+		default:
+			fmt.Println("Invalid part number. Please provide 1 or 2.")
+			return
+		}
 	}
 
 	println("Total output joltage:", totalJoltage)
@@ -82,15 +91,14 @@ func maxJoltage(joltages []int) int {
 func maxJoltageArbitrary(joltages []int, n int) int {
 	digits := make([]int, n)
 
-	for _, joltage := range joltages {
-		for i := range n {
-			// TODO: Add check to make sure we're not replacing digits too "late" in the joltages
-			// E.g. replacing the first digit when processing the last joltage
-			if joltage > digits[i] {
-				digits[i] = joltage
-				for j := i + 1; j < n; j++ {
-					digits[j] = 0
+	for i, joltage := range joltages {
+		for j := range n {
+			if joltage > digits[j] && len(joltages)-i >= n-j {
+				digits[j] = joltage
+				for k := j + 1; k < n; k++ {
+					digits[k] = 0
 				}
+				break
 			}
 		}
 	}

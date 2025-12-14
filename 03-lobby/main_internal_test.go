@@ -53,3 +53,25 @@ func TestMaxJoltage(t *testing.T) {
 		}
 	}
 }
+
+func TestMaxJoltageArbitrary(t *testing.T) {
+	type testCase struct {
+		joltages []int
+		n        int
+		want     int
+	}
+
+	tests := []testCase{
+		{joltages: []int{9, 8, 7, 6, 5, 4, 3, 2, 1, 1, 1, 1, 1, 1, 1}, n: 12, want: 987654321111},
+		{joltages: []int{8, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 9}, n: 12, want: 811111111119},
+		{joltages: []int{2, 3, 4, 2, 3, 4, 2, 3, 4, 2, 3, 4, 2, 7, 8}, n: 12, want: 434234234278},
+		{joltages: []int{8, 1, 8, 1, 8, 1, 9, 1, 1, 1, 1, 2, 1, 1, 1}, n: 12, want: 888911112111},
+	}
+
+	for _, tc := range tests {
+		got := maxJoltageArbitrary(tc.joltages, tc.n)
+		if got != tc.want {
+			t.Errorf("maxJoltageArbitrary(%v, %d) = %d; want %d", tc.joltages, tc.n, got, tc.want)
+		}
+	}
+}
